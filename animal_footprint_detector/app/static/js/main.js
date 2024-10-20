@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = document.getElementById('result');
     const animalName = document.getElementById('animalName');
     const confidence = document.getElementById('confidence');
+    const preloader = document.getElementById('preloader');
+
+    window.addEventListener('load', () => {
+        preloader.style.display = 'none';
+    });
 
     detectBtn.addEventListener('click', async () => {
         const file = imageUpload.files[0];
