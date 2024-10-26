@@ -1,0 +1,8 @@
+flask
+transformers
+torch
+pillow
+sentencepiece
+torchvision
+
+
