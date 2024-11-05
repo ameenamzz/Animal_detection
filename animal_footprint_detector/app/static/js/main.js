@@ -4,11 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = document.getElementById('result');
     const animalName = document.getElementById('animalName');
     const confidence = document.getElementById('confidence');
-    const preloader = document.getElementById('preloader');
-
-    window.addEventListener('load', () => {
-        preloader.style.display = 'none';
-    });
+    const loading = document.getElementById('loading');
 
     detectBtn.addEventListener('click', async () => {
         const file = imageUpload.files[0];
@@ -19,9 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData();
         formData.append('file', file);
+        
+        loading.classList.remove('hidden');
+        result.classList.add('hidden');
 
         try {
-            const response = await fetch('/', {
+            const response = await fetch('/detector', {
                 method: 'POST',
                 body: formData
             });
@@ -38,6 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while processing the image.');
+        } finally {
+            loading.classList.add('hidden');
+        }
+    });
+
+    imageUpload.addEventListener('change', (event) => {
+        const fileName = event.target.files[0]?.name;
+        if (fileName) {
+            const fileNameDisplay = document.createElement('p');
+            fileNameDisplay.textContent = `Selected: ${fileName}`;
+            fileNameDisplay.className = 'text-sm text-primary mt-2';
+            const existingDisplay = imageUpload.parentElement.querySelector('p');
+            if (existingDisplay) {
+                existingDisplay.remove();
+            }
+            imageUpload.parentElement.appendChild(fileNameDisplay);
         }
     });
 });
