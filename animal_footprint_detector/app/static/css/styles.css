@@ -541,3 +541,543 @@
 .modern-card:hover::after {
     opacity: 1;
 }
+
+/* Add to your existing styles */
+
+/* Connected Steps Styling */
+.steps-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.step-card-connected {
+    position: relative;
+    background: rgba(17, 17, 27, 0.7);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 4rem;
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.step-card-connected::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        rgba(123, 31, 162, 0.5),
+        rgba(103, 58, 183, 0.5),
+        rgba(244, 143, 177, 0.5)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.step-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+}
+
+.step-number-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(45deg, #4f46e5, #7c3aed);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.step-connector {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 2px;
+    height: calc(100% + 4rem);
+    background: linear-gradient(180deg, 
+        rgba(124, 58, 237, 0.5) 0%,
+        rgba(124, 58, 237, 0.2) 100%
+    );
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.step-details {
+    flex: 1;
+}
+
+.step-icon {
+    color: #a855f7;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effects */
+.step-card-connected:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 10px 30px rgba(124, 58, 237, 0.2),
+        0 0 0 1px rgba(124, 58, 237, 0.1);
+}
+
+.step-card-connected:hover .step-number {
+    animation: pulse 1.5s infinite;
+}
+
+.step-card-connected:hover .step-icon {
+    color: #d8b4fe;
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(124, 58, 237, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+    }
+}
+
+/* Add flowing animation to connector */
+.step-card-connected:hover .step-connector::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+        rgba(124, 58, 237, 0) 0%,
+        rgba(124, 58, 237, 0.8) 50%,
+        rgba(124, 58, 237, 0) 100%
+    );
+    animation: flow 2s linear infinite;
+}
+
+@keyframes flow {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* Scroll Animation */
+.step-card-connected {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.step-card-connected.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Sequential Animation Delays */
+.step-card-connected:nth-child(1) {
+    transition-delay: 0.2s;
+}
+
+.step-card-connected:nth-child(2) {
+    transition-delay: 0.4s;
+}
+
+.step-card-connected:nth-child(3) {
+    transition-delay: 0.6s;
+}
+
+/* Statistics Section Styling */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-card-modern {
+    position: relative;
+    background: rgba(17, 17, 27, 0.7);
+    border-radius: 24px;
+    padding: 2rem;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.stat-card-modern::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        rgba(123, 31, 162, 0.5),
+        rgba(103, 58, 183, 0.5),
+        rgba(244, 143, 177, 0.5)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.stat-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.stat-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(45deg, rgba(123, 31, 162, 0.2), rgba(103, 58, 183, 0.2));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a855f7;
+    transform: translateZ(20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #f3f4f6;
+    margin-bottom: 0.5rem;
+    transform: translateZ(30px);
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    font-size: 1.125rem;
+    color: #9ca3af;
+    margin-bottom: 0.25rem;
+    transform: translateZ(20px);
+}
+
+.stat-unit {
+    font-size: 0.875rem;
+    color: #6b7280;
+    transform: translateZ(15px);
+}
+
+.stat-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(123, 31, 162, 0.2);
+    overflow: hidden;
+}
+
+.stat-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--progress);
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    transform-origin: left;
+    animation: progress 1.5s ease-out forwards;
+}
+
+@keyframes progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Hover Effects */
+.stat-card-modern:hover {
+    transform: perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(20px);
+    box-shadow: 
+        0 5px 15px rgba(123, 31, 162, 0.2),
+        0 10px 30px rgba(103, 58, 183, 0.3);
+}
+
+.stat-card-modern:hover .stat-icon {
+    transform: translateZ(40px) scale(1.1);
+    color: #d8b4fe;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+}
+
+.stat-card-modern:hover .stat-number {
+    transform: translateZ(50px);
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+.stat-card-modern:hover .stat-label {
+    transform: translateZ(30px);
+    color: #d1d5db;
+}
+
+.stat-card-modern:hover .stat-unit {
+    transform: translateZ(25px);
+    color: #9ca3af;
+}
+
+/* Counter Animation */
+@keyframes countUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.counter {
+    display: inline-block;
+    animation: countUp 1s ease-out forwards;
+}
+
+/* Timeline Styling */
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg,
+        rgba(124, 58, 237, 0.1),
+        rgba(124, 58, 237, 0.5),
+        rgba(124, 58, 237, 0.1)
+    );
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 4rem;
+}
+
+.timeline-content {
+    position: relative;
+    width: calc(50% - 3rem);
+    margin-left: auto;
+    padding: 1rem;
+    transform-style: preserve-3d;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.timeline-number {
+    position: absolute;
+    left: -4.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(45deg, #4f46e5, #7c3aed);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.timeline-item:nth-child(even) .timeline-number {
+    left: auto;
+    right: -4.5rem;
+}
+
+.timeline-card {
+    position: relative;
+    background: rgba(17, 17, 27, 0.7);
+    border-radius: 24px;
+    padding: 2rem;
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.timeline-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        rgba(123, 31, 162, 0.5),
+        rgba(103, 58, 183, 0.5),
+        rgba(244, 143, 177, 0.5)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.timeline-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(45deg, rgba(123, 31, 162, 0.2), rgba(103, 58, 183, 0.2));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: #a855f7;
+    transform: translateZ(20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.timeline-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f3f4f6;
+    margin-bottom: 0.5rem;
+    transform: translateZ(15px);
+}
+
+.timeline-card p {
+    color: #9ca3af;
+    line-height: 1.6;
+    transform: translateZ(10px);
+}
+
+/* Hover Effects */
+.timeline-card:hover {
+    transform: scale(1.02) translateZ(20px);
+    box-shadow: 
+        0 10px 30px rgba(124, 58, 237, 0.2),
+        0 0 0 1px rgba(124, 58, 237, 0.1);
+}
+
+.timeline-card:hover .timeline-icon {
+    transform: translateZ(40px) scale(1.1);
+    color: #d8b4fe;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+}
+
+/* Connecting Lines Animation */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 3rem;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        rgba(124, 58, 237, 0.2),
+        rgba(124, 58, 237, 0.8)
+    );
+}
+
+.timeline-item:nth-child(odd)::after {
+    left: calc(50% + 1px);
+}
+
+.timeline-item:nth-child(even)::after {
+    right: calc(50% + 1px);
+}
+
+/* Progress Animation */
+.timeline-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(124, 58, 237, 0.2);
+    border-radius: 0 0 24px 24px;
+    overflow: hidden;
+}
+
+.timeline-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    transform: translateX(-100%);
+    animation: progress 1.5s ease-out forwards;
+}
+
+@keyframes progress {
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .timeline-container::before {
+        left: 2rem;
+    }
+    
+    .timeline-content {
+        width: calc(100% - 4rem);
+        margin-left: 4rem !important;
+    }
+    
+    .timeline-number {
+        left: 0.5rem !important;
+    }
+    
+    .timeline-item::after {
+        left: 2rem !important;
+        width: 2rem;
+    }
+}

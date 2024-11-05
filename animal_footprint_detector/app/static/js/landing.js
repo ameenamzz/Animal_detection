@@ -168,6 +168,26 @@ const initScrollAnimations = () => {
         }))
         .addTo(controller);
     });
+
+    // Add animations for connected steps
+    document.querySelectorAll('.step-card-connected').forEach((card, index) => {
+        new ScrollMagic.Scene({
+            triggerElement: card,
+            triggerHook: 0.8,
+            reverse: false
+        })
+        .setTween(gsap.from(card, {
+            duration: 0.8,
+            y: 100,
+            opacity: 0,
+            delay: index * 0.2,
+            ease: 'power4.out',
+            onComplete: () => {
+                card.classList.add('visible');
+            }
+        }))
+        .addTo(controller);
+    });
 };
 
 const initParticles = () => {

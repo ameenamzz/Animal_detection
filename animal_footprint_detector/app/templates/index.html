@@ -112,24 +112,71 @@
     </section>
 
     <!-- Statistics Section -->
-    <section class="relative z-20 py-24 bg-gradient-to-r from-purple-900/50 to-violet-900/50 backdrop-blur-lg">
+    <section class="relative z-20 py-24">
         <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div class="stat-card">
-                    <div class="text-4xl font-bold text-purple-400 counter" data-target="95">0</div>
-                    <div class="text-gray-300 mt-2">Accuracy Rate</div>
+            <div class="stats-grid">
+                <!-- Accuracy Rate -->
+                <div class="stat-card-modern">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-number counter" data-target="95">0</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                        <div class="stat-unit">%</div>
+                    </div>
+                    <div class="stat-card-blur"></div>
+                    <div class="stat-progress-bar" style="--progress: 95%"></div>
                 </div>
-                <div class="stat-card">
-                    <div class="text-4xl font-bold text-purple-400 counter" data-target="500">0</div>
-                    <div class="text-gray-300 mt-2">Species Detected</div>
+
+                <!-- Species Detected -->
+                <div class="stat-card-modern">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </div>
+                        <div class="stat-number counter" data-target="500">0</div>
+                        <div class="stat-label">Species Detected</div>
+                        <div class="stat-unit">types</div>
+                    </div>
+                    <div class="stat-card-blur"></div>
+                    <div class="stat-progress-bar" style="--progress: 80%"></div>
                 </div>
-                <div class="stat-card">
-                    <div class="text-4xl font-bold text-purple-400 counter" data-target="10000">0</div>
-                    <div class="text-gray-300 mt-2">Daily Scans</div>
+
+                <!-- Daily Scans -->
+                <div class="stat-card-modern">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="stat-number counter" data-target="10000">0</div>
+                        <div class="stat-label">Daily Scans</div>
+                        <div class="stat-unit">per day</div>
+                    </div>
+                    <div class="stat-card-blur"></div>
+                    <div class="stat-progress-bar" style="--progress: 75%"></div>
                 </div>
-                <div class="stat-card">
-                    <div class="text-4xl font-bold text-purple-400 counter" data-target="50">0</div>
-                    <div class="text-gray-300 mt-2">Conservation Partners</div>
+
+                <!-- Conservation Partners -->
+                <div class="stat-card-modern">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-number counter" data-target="50">0</div>
+                        <div class="stat-label">Conservation Partners</div>
+                        <div class="stat-unit">worldwide</div>
+                    </div>
+                    <div class="stat-card-blur"></div>
+                    <div class="stat-progress-bar" style="--progress: 85%"></div>
                 </div>
             </div>
         </div>
@@ -139,21 +186,59 @@
     <section class="relative z-20 py-32">
         <div class="container mx-auto px-4">
             <h2 class="text-5xl font-bold text-center mb-20 text-gradient animate-on-scroll">How It Works</h2>
-            <div class="grid md:grid-cols-3 gap-12">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Upload Image</h3>
-                    <p class="text-gray-300">Simply upload a clear image of the animal footprint you want to analyze</p>
+            <div class="timeline-container">
+                <!-- Step 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-card">
+                            <div class="timeline-icon">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3>Upload Image</h3>
+                            <p>Simply upload a clear image of the animal footprint you want to analyze</p>
+                            <div class="timeline-card-blur"></div>
+                            <div class="timeline-progress"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">AI Analysis</h3>
-                    <p class="text-gray-300">Our advanced AI model processes and analyzes the footprint patterns</p>
+
+                <!-- Step 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-card">
+                            <div class="timeline-icon">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                                </svg>
+                            </div>
+                            <h3>AI Analysis</h3>
+                            <p>Our advanced AI model processes and analyzes the footprint patterns</p>
+                            <div class="timeline-card-blur"></div>
+                            <div class="timeline-progress"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Get Results</h3>
-                    <p class="text-gray-300">Receive detailed analysis with species identification and confidence scores</p>
+
+                <!-- Step 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-card">
+                            <div class="timeline-icon">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h3>Get Results</h3>
+                            <p>Receive detailed analysis with species identification and confidence scores</p>
+                            <div class="timeline-card-blur"></div>
+                            <div class="timeline-progress"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
