@@ -6,6 +6,14 @@
     <div class="cat-spinner"></div>
 </div>
 
+<!-- Back Button -->
+<a href="{{ url_for('main.index') }}" class="back-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    <span>Back</span>
+</a>
+
 <!-- Animated Background -->
 <div class="animated-background">
     <div class="particle-container">
@@ -13,6 +21,25 @@
         <div class="particle" style="--i:{{i}}"></div>
         {% endfor %}
     </div>
+</div>
+
+<!-- Interactive Side Elements -->
+<div class="side-elements-left">
+    {% for i in range(5) %}
+    <div class="floating-paw" style="--delay: {{ i * 2 }}s">🐾</div>
+    {% endfor %}
+    <div class="interactive-circle"></div>
+    <div class="interactive-square"></div>
+</div>
+
+<div class="side-elements-right">
+    {% for i in range(5) %}
+    <div class="floating-animal" style="--delay: {{ i * 2 + 1 }}s">
+        {{ ['🦁', '🐯', '🐘', '🦊', '🦒'][i] }}
+    </div>
+    {% endfor %}
+    <div class="interactive-triangle"></div>
+    <div class="interactive-hex"></div>
 </div>
 
 <!-- Three.js Background Animation -->
