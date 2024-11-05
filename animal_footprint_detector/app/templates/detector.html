@@ -24,22 +24,29 @@
 </div>
 
 <!-- Interactive Side Elements -->
-<div class="side-elements-left">
+<div class="side-elements-left" id="leftElements">
     {% for i in range(5) %}
-    <div class="floating-paw" style="--delay: {{ i * 2 }}s">🐾</div>
+    <div class="floating-paw moving-element" style="--delay: {{ i * 2 }}s">🐾</div>
     {% endfor %}
-    <div class="interactive-circle"></div>
-    <div class="interactive-square"></div>
+    <div class="interactive-circle moving-element"></div>
+    <div class="interactive-square moving-element"></div>
 </div>
 
-<div class="side-elements-right">
+<div class="side-elements-right" id="rightElements">
     {% for i in range(5) %}
-    <div class="floating-animal" style="--delay: {{ i * 2 + 1 }}s">
+    <div class="floating-animal moving-element" style="--delay: {{ i * 2 + 1 }}s">
         {{ ['🦁', '🐯', '🐘', '🦊', '🦒'][i] }}
     </div>
     {% endfor %}
-    <div class="interactive-triangle"></div>
-    <div class="interactive-hex"></div>
+    <div class="interactive-triangle moving-element"></div>
+    <div class="interactive-hex moving-element"></div>
+</div>
+
+<!-- Add this new container for moved elements -->
+<div class="elements-destination hidden" id="elementsDestination">
+    <div class="moved-elements-container">
+        <!-- Elements will be cloned here via JavaScript -->
+    </div>
 </div>
 
 <!-- Three.js Background Animation -->
@@ -95,4 +102,40 @@
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function(event) {
+        if (event.target.files.length > 0) {
+            // Clone and animate elements
+            const leftElements = document.querySelectorAll('#leftElements .moving-element');
+            const rightElements = document.querySelectorAll('#rightElements .moving-element');
+            const destination = document.querySelector('#elementsDestination .moved-elements-container');
+            
+            // Clear previous elements
+            destination.innerHTML = '';
+            
+            // Show destination container
+            document.getElementById('elementsDestination').classList.remove('hidden');
+            
+            // Animate elements from left side
+            leftElements.forEach((element, index) => {
+                const clone = element.cloneNode(true);
+                clone.classList.add('element-moving-left');
+                clone.style.animationDelay = `${index * 0.1}s`;
+                destination.appendChild(clone);
+            });
+            
+            // Animate elements from right side
+            rightElements.forEach((element, index) => {
+                const clone = element.cloneNode(true);
+                clone.classList.add('element-moving-right');
+                clone.style.animationDelay = `${index * 0.1}s`;
+                destination.appendChild(clone);
+            });
+            
+            // Hide original side elements
+            document.getElementById('leftElements').classList.add('fade-out');
+            document.getElementById('rightElements').classList.add('fade-out');
+        }
+    });
+</script>
 {% endblock %} 
