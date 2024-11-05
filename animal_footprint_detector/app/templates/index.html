@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Preloader -->
+<div class="cat-spinner-wrapper" id="preloader">
+    <div class="cat-spinner"></div>
+</div>
+
 <!-- Hero Section with Particle Effect -->
 <div class="relative min-h-screen overflow-hidden">
     <div id="particles-js" class="absolute inset-0 z-0"></div>
     
-    <!-- Floating Elements (Increased count and variety) -->
-    <div class="absolute inset-0 z-10 overflow-hidden">
+    <!-- Floating Elements (Increased count and better distribution) -->
+    <div class="fixed inset-0 z-10 overflow-hidden pointer-events-none">
         <div class="floating-element" style="--delay: 0s; left: 5%">🐾</div>
         <div class="floating-element" style="--delay: 2s; left: 15%">🦁</div>
         <div class="floating-element" style="--delay: 4s; left: 25%">🐯</div>
@@ -17,6 +22,16 @@
         <div class="floating-element" style="--delay: 5s; left: 75%">🦓</div>
         <div class="floating-element" style="--delay: 7s; left: 85%">🦛</div>
         <div class="floating-element" style="--delay: 9s; left: 95%">🦏</div>
+        <div class="floating-element" style="--delay: 0.5s; left: 10%">🦊</div>
+        <div class="floating-element" style="--delay: 1.5s; left: 20%">🐾</div>
+        <div class="floating-element" style="--delay: 2.5s; left: 30%">🦁</div>
+        <div class="floating-element" style="--delay: 3.5s; left: 40%">🐯</div>
+        <div class="floating-element" style="--delay: 4.5s; left: 50%">🐘</div>
+        <div class="floating-element" style="--delay: 5.5s; left: 60%">🦒</div>
+        <div class="floating-element" style="--delay: 6.5s; left: 70%">🦓</div>
+        <div class="floating-element" style="--delay: 7.5s; left: 80%">🦛</div>
+        <div class="floating-element" style="--delay: 8.5s; left: 90%">🦏</div>
+        <div class="floating-element" style="--delay: 9.5s; left: 100%">🐺</div>
     </div>
     
     <!-- Hero Content -->
@@ -248,4 +263,13 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/landing.js') }}" defer></script>
+<script>
+    // Hide preloader when page is fully loaded
+    window.addEventListener('load', function() {
+        document.getElementById('preloader').style.opacity = '0';
+        setTimeout(function() {
+            document.getElementById('preloader').style.display = 'none';
+        }, 500);
+    });
+</script>
 {% endblock %}

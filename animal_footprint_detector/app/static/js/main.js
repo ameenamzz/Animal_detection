@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const animalName = document.getElementById('animalName');
     const confidence = document.getElementById('confidence');
     const loading = document.getElementById('loading');
+    const preloader = document.getElementById('preloader');
+
+    // Hide initial page load preloader
+    window.addEventListener('load', function() {
+        preloader.style.opacity = '0';
+        setTimeout(function() {
+            preloader.style.display = 'none';
+        }, 500);
+    });
 
     detectBtn.addEventListener('click', async () => {
         const file = imageUpload.files[0];
@@ -16,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('file', file);
         
+        // Show loading spinner
         loading.classList.remove('hidden');
         result.classList.add('hidden');
 
@@ -33,12 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 animalName.textContent = data.animal;
                 confidence.textContent = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
                 result.classList.remove('hidden');
+
+                // Add fade-in animation to result
+                result.style.opacity = '0';
+                result.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    result.style.transition = 'all 0.5s ease-out';
+                    result.style.opacity = '1';
+                    result.style.transform = 'translateY(0)';
+                }, 100);
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while processing the image.');
         } finally {
-            loading.classList.add('hidden');
+            // Hide loading spinner with fade-out effect
+            loading.style.opacity = '0';
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                loading.style.opacity = '1';
+            }, 500);
         }
     });
 
