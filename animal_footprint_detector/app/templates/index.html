@@ -5,13 +5,18 @@
 <div class="relative min-h-screen overflow-hidden">
     <div id="particles-js" class="absolute inset-0 z-0"></div>
     
-    <!-- Floating Elements -->
+    <!-- Floating Elements (Increased count and variety) -->
     <div class="absolute inset-0 z-10 overflow-hidden">
-        <div class="floating-element" style="--delay: 0s">🐾</div>
-        <div class="floating-element" style="--delay: 2s">🦁</div>
-        <div class="floating-element" style="--delay: 4s">🐯</div>
-        <div class="floating-element" style="--delay: 6s">🐘</div>
-        <div class="floating-element" style="--delay: 8s">🦊</div>
+        <div class="floating-element" style="--delay: 0s; left: 5%">🐾</div>
+        <div class="floating-element" style="--delay: 2s; left: 15%">🦁</div>
+        <div class="floating-element" style="--delay: 4s; left: 25%">🐯</div>
+        <div class="floating-element" style="--delay: 6s; left: 35%">🐘</div>
+        <div class="floating-element" style="--delay: 8s; left: 45%">🦊</div>
+        <div class="floating-element" style="--delay: 1s; left: 55%">🐺</div>
+        <div class="floating-element" style="--delay: 3s; left: 65%">🦒</div>
+        <div class="floating-element" style="--delay: 5s; left: 75%">🦓</div>
+        <div class="floating-element" style="--delay: 7s; left: 85%">🦛</div>
+        <div class="floating-element" style="--delay: 9s; left: 95%">🦏</div>
     </div>
     
     <!-- Hero Content -->
@@ -26,13 +31,26 @@
                 Revolutionizing wildlife monitoring through advanced footprint analysis technology
             </p>
             <div class="flex gap-6 justify-center animate-buttons">
-                <a href="{{ url_for('main.detector') }}" class="btn-primary">
-                    Try Detection
-                    <span class="ml-2">→</span>
+                <!-- Enhanced Try Detection Button -->
+                <a href="{{ url_for('main.detector') }}" class="relative inline-flex items-center justify-center p-4 px-8 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-purple-600 rounded-full group hover:bg-purple-800">
+                    <span class="absolute bottom-0 right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative flex items-center">
+                        Try Detection
+                        <svg class="w-6 h-6 ml-2 transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </span>
                 </a>
-                <a href="#features" class="btn-secondary">
-                    Learn More
-                    <span class="ml-2">↓</span>
+                
+                <!-- Enhanced Learn More Button -->
+                <a href="#features" class="relative inline-flex items-center justify-center p-4 px-8 py-3 overflow-hidden font-bold text-purple-500 transition-all duration-300 border-2 border-purple-500 rounded-full hover:text-white group">
+                    <span class="absolute inset-0 w-full h-0 transition-all duration-300 origin-center rotate-0 bg-purple-500 group-hover:h-full"></span>
+                    <span class="relative flex items-center group-hover:text-white">
+                        Learn More
+                        <svg class="w-6 h-6 ml-2 transition-transform duration-300 group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </span>
                 </a>
             </div>
         </div>
@@ -45,7 +63,7 @@
                 Cutting-Edge Features
             </h2>
             <div class="grid md:grid-cols-3 gap-12">
-                <!-- Feature Cards with Enhanced Animations -->
+                <!-- Advanced Detection Card -->
                 <div class="feature-card group">
                     <div class="icon-wrapper group-hover:scale-110">
                         <div class="icon-3d">
@@ -57,7 +75,32 @@
                     <h3 class="text-2xl font-semibold mb-4 text-purple-300">Advanced Detection</h3>
                     <p class="text-gray-300">State-of-the-art YOLOv8 implementation with advanced image processing for unparalleled accuracy in footprint analysis</p>
                 </div>
-                <!-- Add more feature cards similarly -->
+
+                <!-- Real-time Processing Card -->
+                <div class="feature-card group">
+                    <div class="icon-wrapper group-hover:scale-110">
+                        <div class="icon-3d">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Real-time Processing</h3>
+                    <p class="text-gray-300">Lightning-fast analysis with our optimized processing pipeline for instant results</p>
+                </div>
+
+                <!-- Conservation Focus Card -->
+                <div class="feature-card group">
+                    <div class="icon-wrapper group-hover:scale-110">
+                        <div class="icon-3d">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Conservation Focus</h3>
+                    <p class="text-gray-300">Supporting wildlife protection through early warning systems and habitat monitoring</p>
+                </div>
             </div>
         </div>
     </section>
@@ -70,7 +113,42 @@
                     <div class="text-4xl font-bold text-purple-400 counter" data-target="95">0</div>
                     <div class="text-gray-300 mt-2">Accuracy Rate</div>
                 </div>
-                <!-- Add more stat cards -->
+                <div class="stat-card">
+                    <div class="text-4xl font-bold text-purple-400 counter" data-target="500">0</div>
+                    <div class="text-gray-300 mt-2">Species Detected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-4xl font-bold text-purple-400 counter" data-target="10000">0</div>
+                    <div class="text-gray-300 mt-2">Daily Scans</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-4xl font-bold text-purple-400 counter" data-target="50">0</div>
+                    <div class="text-gray-300 mt-2">Conservation Partners</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="relative z-20 py-32">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl font-bold text-center mb-20 text-gradient animate-on-scroll">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Upload Image</h3>
+                    <p class="text-gray-300">Simply upload a clear image of the animal footprint you want to analyze</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">AI Analysis</h3>
+                    <p class="text-gray-300">Our advanced AI model processes and analyzes the footprint patterns</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Get Results</h3>
+                    <p class="text-gray-300">Receive detailed analysis with species identification and confidence scores</p>
+                </div>
             </div>
         </div>
     </section>
