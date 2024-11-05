@@ -1,100 +1,76 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Hero Section with 3D Animation -->
+<!-- Hero Section with Particle Effect -->
 <div class="relative min-h-screen overflow-hidden">
-    <div id="hero-particles" class="absolute inset-0"></div>
+    <div id="particles-js" class="absolute inset-0 z-0"></div>
+    
+    <!-- Floating Elements -->
+    <div class="absolute inset-0 z-10 overflow-hidden">
+        <div class="floating-element" style="--delay: 0s">🐾</div>
+        <div class="floating-element" style="--delay: 2s">🦁</div>
+        <div class="floating-element" style="--delay: 4s">🐯</div>
+        <div class="floating-element" style="--delay: 6s">🐘</div>
+        <div class="floating-element" style="--delay: 8s">🦊</div>
+    </div>
     
     <!-- Hero Content -->
-    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-        <div class="text-center space-y-6 max-w-4xl mx-auto animate-fade-in">
-            <h1 class="text-6xl font-bold text-primary tracking-tight animate-title">
-                AI-Powered Animal Footprint Detection
-            </h1>
-            <p class="text-xl text-base-content/80 max-w-2xl mx-auto animate-subtitle">
+    <div class="relative z-20 min-h-screen flex flex-col items-center justify-center px-4">
+        <div class="text-center space-y-8 max-w-4xl mx-auto">
+            <div class="gemini-effect-container">
+                <h1 class="text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 gemini-text">
+                    AI-Powered Animal Footprint Detection
+                </h1>
+            </div>
+            <p class="text-2xl text-gray-300 max-w-2xl mx-auto animate-subtitle leading-relaxed">
                 Revolutionizing wildlife monitoring through advanced footprint analysis technology
             </p>
-            <div class="flex gap-4 justify-center animate-buttons">
-                <a href="{{ url_for('main.detector') }}" class="btn btn-primary btn-lg group">
+            <div class="flex gap-6 justify-center animate-buttons">
+                <a href="{{ url_for('main.detector') }}" class="btn-primary">
                     Try Detection
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
+                    <span class="ml-2">→</span>
                 </a>
-                <a href="#features" class="btn btn-outline btn-lg">Learn More</a>
+                <a href="#features" class="btn-secondary">
+                    Learn More
+                    <span class="ml-2">↓</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Features Section -->
-    <section id="features" class="relative z-10 py-24 bg-base-200/50 backdrop-blur-lg">
+    <!-- Features Section with Enhanced Animation -->
+    <section id="features" class="relative z-20 py-32">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 animate-on-scroll">Key Features</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card">
-                    <div class="icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+            <h2 class="text-5xl font-bold text-center mb-20 text-gradient animate-on-scroll">
+                Cutting-Edge Features
+            </h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Feature Cards with Enhanced Animations -->
+                <div class="feature-card group">
+                    <div class="icon-wrapper group-hover:scale-110">
+                        <div class="icon-3d">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Advanced Detection</h3>
-                    <p>Utilizing YOLOv8 and advanced image processing for precise footprint analysis</p>
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-300">Advanced Detection</h3>
+                    <p class="text-gray-300">State-of-the-art YOLOv8 implementation with advanced image processing for unparalleled accuracy in footprint analysis</p>
                 </div>
-                <div class="feature-card">
-                    <div class="icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Real-time Processing</h3>
-                    <p>Instant analysis and results with our optimized processing pipeline</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Conservation Focus</h3>
-                    <p>Supporting wildlife protection through early warning systems</p>
-                </div>
+                <!-- Add more feature cards similarly -->
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="relative z-10 py-24">
+    <!-- Statistics Section -->
+    <section class="relative z-20 py-24 bg-gradient-to-r from-purple-900/50 to-violet-900/50 backdrop-blur-lg">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 animate-on-scroll">How It Works</h2>
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="flex-1 space-y-6 animate-on-scroll">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3 class="text-xl font-semibold">Upload Image</h3>
-                            <p>Submit a clear image of the animal footprint</p>
-                        </div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3 class="text-xl font-semibold">AI Analysis</h3>
-                            <p>Our AI model processes and analyzes the footprint</p>
-                        </div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3 class="text-xl font-semibold">Get Results</h3>
-                            <p>Receive detailed analysis with confidence scores</p>
-                        </div>
-                    </div>
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div class="stat-card">
+                    <div class="text-4xl font-bold text-purple-400 counter" data-target="95">0</div>
+                    <div class="text-gray-300 mt-2">Accuracy Rate</div>
                 </div>
-                <div class="flex-1 relative animate-on-scroll">
-                    <div class="aspect-square rounded-lg overflow-hidden">
-                        <div id="demo-animation" class="w-full h-full"></div>
-                    </div>
-                </div>
+                <!-- Add more stat cards -->
             </div>
         </div>
     </section>
@@ -102,8 +78,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
 <script src="{{ url_for('static', filename='js/landing.js') }}" defer></script>
 {% endblock %}

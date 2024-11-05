@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize scroll animations
     initScrollAnimations();
+    
+    // Initialize particles
+    initParticles();
+    
+    // Initialize counters
+    initCounters();
 });
 
 const initHeroParticles = () => {
@@ -161,5 +167,90 @@ const initScrollAnimations = () => {
             ease: 'power4.out'
         }))
         .addTo(controller);
+    });
+};
+
+const initParticles = () => {
+    tsParticles.load("particles-js", {
+        particles: {
+            number: {
+                value: 100,
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#a855f7"
+            },
+            shape: {
+                type: "circle"
+            },
+            opacity: {
+                value: 0.5,
+                random: true
+            },
+            size: {
+                value: 3,
+                random: true
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#a855f7",
+                opacity: 0.2,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 2,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "repulse"
+                },
+                resize: true
+            }
+        },
+        retina_detect: true
+    });
+};
+
+// Initialize counters
+const initCounters = () => {
+    const counters = document.querySelectorAll('.counter');
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                counter.textContent = Math.round(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target;
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                updateCounter();
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(counter);
     });
 }; 
