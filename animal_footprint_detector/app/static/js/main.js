@@ -40,29 +40,31 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.error) {
                 alert(data.error);
             } else {
+                // Update the result section
                 animalName.textContent = data.animal;
                 confidence.textContent = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+                
+                // Display the processed image
+                if (data.processed_image) {
+                    const processedImage = document.getElementById('processedImage');
+                    processedImage.src = `data:image/png;base64,${data.processed_image}`;
+                }
+                
                 result.classList.remove('hidden');
 
-                // Add fade-in animation to result
-                result.style.opacity = '0';
-                result.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    result.style.transition = 'all 0.5s ease-out';
-                    result.style.opacity = '1';
-                    result.style.transform = 'translateY(0)';
-                }, 100);
+                // Animate the result
+                gsap.from(result, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while processing the image.');
         } finally {
-            // Hide loading spinner with fade-out effect
-            loading.style.opacity = '0';
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                loading.style.opacity = '1';
-            }, 500);
+            loading.classList.add('hidden');
         }
     });
 

@@ -3,6 +3,10 @@ from PIL import Image
 import logging
 import traceback
 import numpy as np
+import io
+import base64
+import os
+from pathlib import Path
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -31,12 +35,31 @@ def predict_footprint(image_file):
         image = Image.open(image_file)
         logger.info(f"Image opened successfully. Size: {image.size}, Mode: {image.mode}")
 
+        # Create a temporary directory for saving results if it doesn't exist
+        save_dir = Path('runs/classify/predict')
+        save_dir.mkdir(parents=True, exist_ok=True)
+
         # Perform prediction
-        results = model.predict(image, task='classify')
+        results = model.predict(image, task='classify', save=True)
         logger.info("Prediction completed successfully")
 
+        # Get the path to the saved image
+        save_path = Path('runs') / 'classify' / 'predict' / image_file.filename
+        
+        # Check if the file exists
+        if not save_path.exists():
+            logger.warning(f"Processed image not found at {save_path}, using original image")
+            # If the processed image doesn't exist, use the original image
+            output_image = image
+        else:
+            output_image = Image.open(save_path)
+
+        # Convert the output image to base64 for sending to frontend
+        buffered = io.BytesIO()
+        output_image.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+
         # Process results
-        predictions = []
         for r in results:
             # Get probabilities
             probs = r.probs.data.cpu().numpy()
@@ -50,7 +73,8 @@ def predict_footprint(image_file):
             
             return {
                 "animal": top_class,
-                "confidence": top_prob
+                "confidence": top_prob,
+                "processed_image": img_str
             }
 
     except Exception as e:

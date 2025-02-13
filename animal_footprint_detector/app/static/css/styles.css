@@ -1326,11 +1326,11 @@
 
 /* Modern Result Card */
 .result-card-modern {
-    background: rgba(17, 17, 27, 0.7);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 12px;
-    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Glass Card Updates */
@@ -1587,4 +1587,24 @@
 .element-moving-left,
 .element-moving-right {
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Add these styles to your existing CSS */
+#processedImage {
+    max-height: 400px;
+    width: auto;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+#processedImage:hover {
+    transform: scale(1.05);
+}
+
+.result-card-modern {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
