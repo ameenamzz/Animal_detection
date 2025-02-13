@@ -1,62 +1,58 @@
-from transformers import ViTForImageClassification, ViTImageProcessor
+from ultralytics import YOLO
 from PIL import Image
-import torch
 import logging
 import traceback
+import numpy as np
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Use a pre-trained ViT model
-MODEL_NAME = "google/vit-base-patch16-224"
+# Load YOLO model
+MODEL_PATH = "footprint_classification/yolov8_classification/weights/best.pt"
 
 try:
-    model = ViTForImageClassification.from_pretrained(MODEL_NAME)
-    processor = ViTImageProcessor.from_pretrained(MODEL_NAME)
-    logger.info(f"Loaded model and processor from {MODEL_NAME}")
+    model = YOLO(MODEL_PATH)
+    logger.info(f"Loaded YOLO model from {MODEL_PATH}")
 except Exception as e:
-    logger.error(f"Error loading model and processor: {str(e)}\n{traceback.format_exc()}")
+    logger.error(f"Error loading model: {str(e)}\n{traceback.format_exc()}")
     model = None
-    processor = None
 
 def predict_footprint(image_file):
-    if model is None or processor is None:
-        logger.error("Model or processor not loaded")
-        return {"error": "Model or processor not loaded"}
+    if model is None:
+        logger.error("Model not loaded")
+        return {"error": "Model not loaded"}
 
     try:
         # Log the image file details
         logger.info(f"Processing image: {image_file.filename}")
         
-        # Open and verify the image
+        # Open and process the image
         image = Image.open(image_file)
         logger.info(f"Image opened successfully. Size: {image.size}, Mode: {image.mode}")
-        
-        # Convert to RGB if necessary
-        if image.mode != "RGB":
-            image = image.convert("RGB")
-            logger.info("Converted image to RGB mode")
 
-        # Process image
-        inputs = processor(images=image, return_tensors="pt")
-        logger.info("Image processed successfully")
-        
-        # Get prediction
-        with torch.no_grad():
-            outputs = model(**inputs)
-        
-        logits = outputs.logits
-        predicted_class_idx = logits.argmax(-1).item()
-        confidence = logits.softmax(dim=-1)[0][predicted_class_idx].item()
-        
-        predicted_animal = model.config.id2label[predicted_class_idx]
-        logger.info(f"Prediction successful: {predicted_animal} with confidence {confidence:.2%}")
-        
-        return {
-            "animal": predicted_animal,
-            "confidence": confidence
-        }
+        # Perform prediction
+        results = model.predict(image, task='classify')
+        logger.info("Prediction completed successfully")
+
+        # Process results
+        predictions = []
+        for r in results:
+            # Get probabilities
+            probs = r.probs.data.cpu().numpy()
+            
+            # Get top prediction
+            top_idx = np.argmax(probs)
+            top_prob = float(probs[top_idx])
+            top_class = str(r.names[top_idx])
+            
+            logger.info(f"Top prediction: {top_class} with confidence {top_prob:.2%}")
+            
+            return {
+                "animal": top_class,
+                "confidence": top_prob
+            }
+
     except Exception as e:
         error_msg = f"Error processing image: {str(e)}\n{traceback.format_exc()}"
         logger.error(error_msg)

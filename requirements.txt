@@ -4,5 +4,6 @@ torch
 pillow
 sentencepiece
 torchvision
-
-
+ultralytics
+pillow
+numpy
