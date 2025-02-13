@@ -73,6 +73,10 @@
                     </label>
                     <input type="file" id="imageUpload" class="hidden" accept="image/*" />
                     <div id="fileInfo" class="text-sm text-[#8B5CF6] mt-2 text-center"></div>
+                    <!-- Add preview image container -->
+                    <div id="imagePreview" class="mt-4 hidden">
+                        <img id="selectedImage" class="w-full rounded-lg shadow-lg" alt="Selected image">
+                    </div>
                 </div>
 
                 <button id="detectBtn" class="detect-btn-modern">
@@ -109,6 +113,19 @@
 <script>
     document.getElementById('imageUpload').addEventListener('change', function(event) {
         if (event.target.files.length > 0) {
+            // Show selected image preview
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const imagePreview = document.getElementById('imagePreview');
+                const selectedImage = document.getElementById('selectedImage');
+                selectedImage.src = e.target.result;
+                imagePreview.classList.remove('hidden');
+            }
+            
+            reader.readAsDataURL(file);
+
             // Clone and animate elements
             const leftElements = document.querySelectorAll('#leftElements .moving-element');
             const rightElements = document.querySelectorAll('#rightElements .moving-element');
