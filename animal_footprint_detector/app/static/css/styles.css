@@ -1608,3 +1608,142 @@
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Styles for detection cards and results */
+.detection-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 12px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.detection-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.confidence-badge {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* Fancy scrollbar styles */
+.fancy-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fancy-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.fancy-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #8B5CF6, #06b6d4);
+    border-radius: 10px;
+}
+
+/* Animation for detection cards */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhance image display */
+#processedImage {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+#processedImage:hover {
+    transform: scale(1.02);
+}
+
+/* Detection count styling */
+#detectionCount {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-align: center;
+    border-left: 3px solid #8B5CF6;
+}
+
+/* Add a subtle glow animation to detection cards */
+.detection-card {
+    animation: subtle-glow 3s infinite alternate;
+}
+
+@keyframes subtle-glow {
+    from {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    to {
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+}
+
+/* Result modal styling */
+#resultModal {
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+#resultModal.hidden {
+    pointer-events: none;
+    opacity: 0;
+}
+
+#resultModal:not(.hidden) {
+    opacity: 1;
+    pointer-events: all;
+    animation: fadeIn 0.4s ease-out;
+}
+
+#resultModal .relative {
+    box-shadow: 0 10px 40px rgba(138, 43, 226, 0.4);
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Enhanced styling for detection cards in modal */
+#modalDetectionsList .detection-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease forwards;
+    animation-delay: calc(0.05s * var(--index));
+    opacity: 0;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

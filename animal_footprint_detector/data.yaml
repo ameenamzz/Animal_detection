@@ -1,0 +1,33 @@
+path: ./combined_dataset
+train: train/images
+val: valid/images
+test: test/images
+nc: 27
+names:
+- Otter
+- Cat
+- Dog
+- Bear
+- Bird
+- Leopard
+- bear
+- cat
+- chicken
+- cow
+- dog
+- duck
+- horse
+- rabbit
+- rat
+- squirrel
+- Ants
+- Eurasian Otter
+- Human
+- Mongoose
+- Rabbit
+- Red Fox
+- Wild Boar
+- ruler
+- deer
+- tiger
+- wolf
