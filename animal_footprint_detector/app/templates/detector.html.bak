@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Preloader -->
+<div class="cat-spinner-wrapper" id="preloader">
+    <div class="cat-spinner"></div>
+</div>
+
+<!-- Back Button -->
+<a href="{{ url_for('main.index') }}" class="back-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    <span>Back</span>
+</a>
+
+<!-- Animated Background -->
+<div class="animated-background">
+    <div class="particle-container">
+        {% for i in range(20) %}
+        <div class="particle" style="--i:{{i}}"></div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Interactive Side Elements -->
+<div class="side-elements-left" id="leftElements">
+    {% for i in range(5) %}
+    <div class="floating-paw moving-element" style="--delay: {{ i * 2 }}s">🐾</div>
+    {% endfor %}
+    <div class="interactive-circle moving-element"></div>
+    <div class="interactive-square moving-element"></div>
+</div>
+
+<div class="side-elements-right" id="rightElements">
+    {% for i in range(5) %}
+    <div class="floating-animal moving-element" style="--delay: {{ i * 2 + 1 }}s">
+        {{ ['🦁', '🐯', '🐘', '🦊', '🦒'][i] }}
+    </div>
+    {% endfor %}
+    <div class="interactive-triangle moving-element"></div>
+    <div class="interactive-hex moving-element"></div>
+</div>
+
+<!-- Add this new container for moved elements -->
+<div class="elements-destination hidden" id="elementsDestination">
+    <div class="moved-elements-container">
+        <!-- Elements will be cloned here via JavaScript -->
+    </div>
+</div>
+
+<!-- Three.js Background Animation -->
+<div id="scene-container" class="fixed top-0 left-0 w-full h-full z-0">
+    <canvas id="animationCanvas"></canvas>
+</div>
+
+<!-- Main Content -->
+<div class="relative z-50 min-h-screen flex items-center justify-center px-4">
+    <div class="glass-card transform hover:scale-105 transition-all duration-300 w-full" style="max-width: 600px;">
+        <div class="card-content">
+            <h1 class="text-4xl font-bold mb-8 text-[#8B5CF6] glow-text">AI Animal Footprint Detector</h1>
+            
+            <!-- File Upload Section -->
+            <div class="space-y-6" id="uploadSection">
+                <div class="file-upload-container hover-effect">
+                    <label for="imageUpload" class="upload-btn-modern">
+                        <div class="flex items-center justify-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 upload-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Choose Image</span>
+                        </div>
+                    </label>
+                    <input type="file" id="imageUpload" class="hidden" accept="image/*" />
+                    <div id="fileInfo" class="text-sm text-[#8B5CF6] mt-2 text-center"></div>
+                    <!-- Add preview image container -->
+                    <div id="imagePreview" class="mt-4 hidden">
+                        <img id="selectedImage" class="w-full rounded-lg shadow-lg" alt="Selected image">
+                    </div>
+                </div>
+
+                <button id="detectBtn" class="detect-btn-modern">
+                    <span class="btn-content">Detect Footprint</span>
+                </button>
+            </div>
+            
+            <!-- Result Section -->
+            <div id="result" class="mt-6 hidden">
+                <div class="result-card-modern">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-300">Results:</h3>
+                    
+                    <!-- Detection Count -->
+                    <div id="detectionCount" class="text-md font-medium text-gray-300 mb-3"></div>
+                    
+                    <!-- Detections List -->
+                    <div id="detectionsList" class="space-y-3 max-h-60 overflow-y-auto pr-2 fancy-scrollbar">
+                        <!-- Detections will be added here by JavaScript -->
+                    </div>
+
+                    <!-- Processed Image Container (moved below the detections list) -->
+                    <div class="mt-6">
+                        <h4 class="text-md font-medium text-gray-300 mb-2">Detected Footprints:</h4>
+                        <div class="image-container" style="max-height: 600px; overflow: hidden;">
+                            <img id="processedImage" class="w-full rounded-lg shadow-lg hover:scale-105 transition-all duration-300" alt="Processed image with detection" style="cursor: pointer; object-fit: contain; max-height: 500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Animation -->
+<div id="loading" class="cat-spinner-wrapper hidden z-[100]">
+    <div class="cat-spinner"></div>
+    <p class="mt-4 text-lg font-semibold text-white glow-text">Analyzing footprint...</p>
+</div>
+
+<!-- Image Fullscreen Modal -->
+<div id="imageModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-[200] hidden flex items-center justify-center p-4">
+    <div class="relative w-full h-full flex items-center justify-center">
+        <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors duration-300">&times;</button>
+        <img id="modalImage" class="max-w-full max-h-full object-contain" alt="Fullscreen image">
+    </div>
+</div>
+
+<!-- Result Modal -->
+<div id="resultModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-[200] hidden flex items-center justify-center p-4">
+    <div class="relative w-4/5 max-w-4xl bg-gradient-to-br from-purple-900/80 to-blue-900/80 rounded-2xl p-6 backdrop-blur-lg border border-purple-500/30">
+        <button id="closeResultModal" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors duration-300">&times;</button>
+        
+        <h2 class="text-2xl font-bold text-white mb-6 glow-text">Footprint Analysis Results</h2>
+        
+        <!-- Detection Count -->
+        <div id="modalDetectionCount" class="text-xl font-medium text-white mb-4"></div>
+        
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Left side: Detections List -->
+            <div class="md:w-1/3">
+                <h3 class="text-lg font-semibold mb-3 text-gray-200">Identified Species:</h3>
+                <div id="modalDetectionsList" class="space-y-3 max-h-80 overflow-y-auto pr-2 fancy-scrollbar">
+                    <!-- Detections will be added here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Right side: Processed Image -->
+            <div class="md:w-2/3">
+                <h3 class="text-lg font-semibold mb-3 text-gray-200">Detected Footprints:</h3>
+                <div class="image-container h-full flex items-center justify-center">
+                    <img id="modalProcessedImage" class="max-w-full max-h-[500px] rounded-lg shadow-2xl object-contain hover:scale-105 transition-all duration-300" alt="Processed image with detection">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Info Modal -->
+<div id="aiInfoModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-[200] hidden flex items-center justify-center p-4">
+    <div class="relative w-4/5 max-w-4xl bg-gradient-to-br from-purple-900/80 to-blue-900/80 rounded-2xl p-6 backdrop-blur-lg border border-purple-500/30">
+        <button id="closeAiInfoModal" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors duration-300">&times;</button>
+        
+        <div class="flex items-center mb-6">
+            <div class="mr-4 gemini-icon-wrapper">
+                <div class="gemini-icon"></div>
+            </div>
+            <h2 class="text-2xl font-bold text-white glow-text">Gemini AI Animal Information</h2>
+        </div>
+        
+        <!-- Animal Name -->
+        <h3 id="aiInfoAnimalName" class="text-xl font-semibold text-white mb-4 gemini-text"></h3>
+        
+        <!-- Loading Animation -->
+        <div id="aiInfoLoading" class="flex flex-col items-center justify-center py-8">
+            <div class="gemini-spinner"></div>
+            <p class="mt-4 text-white">Gathering information...</p>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="aiInfoError" class="hidden p-4 bg-red-500/30 rounded-lg text-white mb-6">
+            <p>Sorry, we couldn't retrieve information about this animal. Please try again later.</p>
+        </div>
+        
+        <!-- Content sections -->
+        <div id="aiInfoContent" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Danger Level -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
+                    <h4 class="text-lg font-semibold text-cyan-400 mb-2">Danger Level</h4>
+                    <div id="aiInfoDanger" class="text-white"></div>
+                </div>
+                
+                <!-- Description -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
+                    <h4 class="text-lg font-semibold text-cyan-400 mb-2">Description</h4>
+                    <div id="aiInfoDescription" class="text-white"></div>
+                </div>
+                
+                <!-- Habitat and Diet -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
+                    <h4 class="text-lg font-semibold text-cyan-400 mb-2">Habitat and Diet</h4>
+                    <div id="aiInfoHabitat" class="text-white"></div>
+                </div>
+                
+                <!-- Safety Guidelines -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
+                    <h4 class="text-lg font-semibold text-cyan-400 mb-2">Safety Guidelines</h4>
+                    <div id="aiInfoSafety" class="text-white"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include the AI Info Modal partial template -->
+{% include 'partials/ai_info_modal.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image preview on selection
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            if (event.target.files.length > 0) {
+                // Show selected image preview
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    const selectedImage = document.getElementById('selectedImage');
+                    selectedImage.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                }
+                
+                reader.readAsDataURL(file);
+
+                // Clone and animate elements
+                const leftElements = document.querySelectorAll('#leftElements .moving-element');
+                const rightElements = document.querySelectorAll('#rightElements .moving-element');
+                const destination = document.querySelector('#elementsDestination .moved-elements-container');
+                
+                // Clear previous elements
+                destination.innerHTML = '';
+                
+                // Show destination container
+                document.getElementById('elementsDestination').classList.remove('hidden');
+                
+                // Animate elements from left side
+                leftElements.forEach((element, index) => {
+                    const clone = element.cloneNode(true);
+                    clone.classList.add('element-moving-left');
+                    clone.style.animationDelay = `${index * 0.1}s`;
+                    destination.appendChild(clone);
+                });
+                
+                // Animate elements from right side
+                rightElements.forEach((element, index) => {
+                    const clone = element.cloneNode(true);
+                    clone.classList.add('element-moving-right');
+                    clone.style.animationDelay = `${index * 0.1}s`;
+                    destination.appendChild(clone);
+                });
+                
+                // Hide original side elements
+                document.getElementById('leftElements').classList.add('fade-out');
+                document.getElementById('rightElements').classList.add('fade-out');
+            }
+        });
+
+        // Set up fullscreen image modal
+        const processedImage = document.getElementById('processedImage');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+
+        // Open modal when clicking on the processed image
+        processedImage.addEventListener('click', function() {
+            modalImage.src = this.src;
+            imageModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+        });
+
+        // Close modal on button click
+        closeModal.addEventListener('click', function() {
+            imageModal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Enable scrolling again
+        });
+
+        // Close modal when clicking outside the image
+        imageModal.addEventListener('click', function(e) {
+            if (e.target === imageModal) {
+                imageModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+                imageModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Set up AI Info modal functionality
+        const aiInfoModal = document.getElementById('aiInfoModal');
+        const closeAiInfoModal = document.getElementById('closeAiInfoModal');
+        
+        // Close AI Info modal when clicking the close button
+        closeAiInfoModal?.addEventListener('click', () => {
+            aiInfoModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close AI Info modal when clicking outside
+        aiInfoModal?.addEventListener('click', (e) => {
+            if (e.target === aiInfoModal) {
+                aiInfoModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Close AI Info modal with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !aiInfoModal.classList.contains('hidden')) {
+                aiInfoModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+</script>
+{% endblock %} 

@@ -10,6 +10,7 @@ from pathlib import Path
 import cv2
 import random
 import colorsys
+from config import Config
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +29,13 @@ def get_color(animal_name):
         "wolf": (128, 0, 128),   # Purple
         "deer": (255, 0, 255),   # Pink
         "rabbit": (0, 128, 128), # Brown
-        "mongoose": (255, 0, 0)  # Blue
+        "mongoose": (255, 0, 0),  # Blue
+        "otter": (0, 0, 255),    # Red
+        "horse": (0, 255, 255),  # Cyan
+        "moose": (255, 255, 0),  # Yellow
+        "elk": (128, 128, 0),   # Olive
+        "moose": (255, 255, 0),  # Yellow
+        
     }
     
     # Convert animal name to lowercase
@@ -52,20 +59,26 @@ def get_color(animal_name):
     # OpenCV uses BGR
     return (int(b*255), int(g*255), int(r*255))
 
-# Load YOLO model
-MODEL_PATH = "updated_model/best.pt"
+# Initialize model variable
+model = None
 
 try:
-    model = YOLO(MODEL_PATH)
-    logger.info(f"Loaded YOLO model from {MODEL_PATH}")
+    MODEL_PATH = Config.MODEL_PATH
+    model_path = Path(MODEL_PATH)
+    
+    if not model_path.exists():
+        logger.error(f"Model file not found at {model_path}. Please ensure the file exists.")
+        logger.info(f"Current working directory: {os.getcwd()}")
+    else:
+        model = YOLO(str(model_path))
+        logger.info(f"Loaded YOLO model from {MODEL_PATH}")
 except Exception as e:
     logger.error(f"Error loading model: {str(e)}\n{traceback.format_exc()}")
-    model = None
 
 def predict_footprint(image_file):
     if model is None:
         logger.error("Model not loaded")
-        return {"error": "Model not loaded"}
+        return {"error": "Model not loaded. Please check server logs for details."}
 
     try:
         # Log the image file details
