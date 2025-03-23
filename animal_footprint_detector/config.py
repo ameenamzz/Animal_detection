@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'your-secret-key'
@@ -16,3 +19,21 @@ class Config:
             "base_dir": str(cls.BASE_DIR),
             "cwd": os.getcwd()
         }
+
+    # Ensure GEMINI_API_KEY is properly loaded from environment
+    GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+    
+    # Add a default response for when API isn't working
+    DEFAULT_AI_RESPONSE = """
+    I couldn't access the AI at the moment. 
+    
+    Here's some general information about animal footprints:
+    
+    Animal footprints, or tracks, provide valuable information about wildlife presence and behavior. They can help identify:
+    - Which species are in an area
+    - Movement patterns and habitat use
+    - Population density
+    - Predator-prey relationships
+    
+    Tracking animals through their footprints is an ancient skill still used by wildlife researchers, hunters, and nature enthusiasts today.
+    """

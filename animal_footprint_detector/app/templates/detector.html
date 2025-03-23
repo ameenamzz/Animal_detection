@@ -141,6 +141,7 @@
                 <div id="modalDetectionsList" class="space-y-3 max-h-80 overflow-y-auto pr-2 fancy-scrollbar">
                     <!-- Detections will be added here by JavaScript -->
                 </div>
+                <!-- AI Help Button will be added here dynamically -->
             </div>
             
             <!-- Right side: Processed Image -->
@@ -151,12 +152,87 @@
                 </div>
             </div>
         </div>
+        
+        <!-- AI Help Response Container will be added here dynamically -->
+    </div>
+</div>
+
+<!-- Results Modal -->
+<div id="resultsModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity">
+            <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+        </div>
+        <div class="inline-block align-bottom bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-white">Footprint Analysis Results</h3>
+                    <button id="closeModal" class="text-white hover:text-gray-300">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <p id="detectionCount" class="text-xl text-white mb-4"></p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="text-lg text-white mb-2">Identified Species:</h4>
+                        <div id="detectionResults" class="space-y-2"></div>
+                        
+                        <!-- Add AI Help Button Here -->
+                        <button id="aiHelpBtn" class="mt-4 btn-primary w-full">
+                            <span class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Get AI Help
+                            </span>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg text-white mb-2">Detected Footprints:</h4>
+                        <div id="detectionImages" class="grid grid-cols-2 gap-2"></div>
+                    </div>
+                </div>
+                
+                <!-- AI Help Response Container -->
+                <div id="aiHelpResponse" class="mt-4 p-4 bg-purple-800/50 rounded-lg hidden">
+                    <h4 class="text-lg text-white mb-2">AI Analysis:</h4>
+                    <div id="aiResponseContent" class="text-white"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Analysis Modal -->
+<div id="aiAnalysisModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-[300] hidden flex items-center justify-center p-4">
+    <div class="relative w-4/5 max-w-4xl bg-gradient-to-br from-purple-900/80 to-blue-900/80 rounded-2xl p-6 backdrop-blur-lg border border-purple-500/30">
+        <button id="closeAiAnalysisModal" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors duration-300">&times;</button>
+        
+        <h2 class="text-2xl font-bold text-white mb-6 glow-text">AI Analysis</h2>
+        
+        <!-- AI Analysis Content -->
+        <div class="ai-analysis-container max-h-[70vh] overflow-y-auto pr-2 fancy-scrollbar">
+            <div id="aiAnalysisContent" class="text-white"></div>
+        </div>
+        
+        <!-- Go Back Button -->
+        <div class="mt-6 flex justify-center">
+            <button id="goBackButton" class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-lg transition-all duration-300 rounded-full shadow-lg hover:shadow-purple-500/50 hover:-translate-y-1 transform">
+                Go Back
+            </button>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
